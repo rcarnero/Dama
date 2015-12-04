@@ -80,7 +80,7 @@ int movimentar(int jogador,int i, int j, int x2, int y2) {
 			}
 			return;
 		//se chegou ao destino e estiver na vez do jogador um, movimenta a peça se ela for do jogador 2
-		} else if(i == x2 && j == y2 && (tabuleiro[x][y] == 'P' || tabuleiro[x][y] == 'd') && jogador == 2) {
+		} else if(i == x2 && j == y2 && (tabuleiro[x][y] == 'B' || tabuleiro[x][y] == 'd') && jogador == 2) {
 			if(x2 == 7) {
 				tabuleiro[x2][y2] = 'd';
 				tabuleiro[x][y] = ' ';
