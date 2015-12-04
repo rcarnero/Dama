@@ -57,13 +57,13 @@ void colocar_pecas() {
 
 int movimentar(int jogador,int i, int j, int x2, int y2) {
 	
-	if(x2 < 0 || x2 >= 8) return 0;
-	if(y2 < 0 || y2 >= 8) return 0;
+	if(x2 < 0 || x2 == 8) return 0;
+	if(y2 < 0 || y2 == 8) return 0;
 	//se o destino for uma casa branca ou em cima de alguma peça, retorna 0
 	if(tabuleiro[x2][y2] == 177 || tabuleiro[x2][y2] == 'B' || tabuleiro[x2][y2] == 'P') return 0;
 	
-		if(i < 0 || i >= 8) return 0;
-		if(j < 0 || j >= 8) return 0;
+		if(i < 0 || i == 8) return 0;
+		if(j < 0 || j == 8) return 0;
 
 		//se chegou ao destino e estiver na vez do jogador um, movimenta a peça se ela for do jogador 1
 		//x e y são as coordenadas iniciais e, x2 e y2 são as coordenadas do destino
@@ -72,13 +72,13 @@ int movimentar(int jogador,int i, int j, int x2, int y2) {
 				tabuleiro[x2][y2] = 'D';
 				tabuleiro[x][y] = ' ';
 			} else if(tabuleiro[x][y] == 'D') {
-				tabuleiro[x2][y2] = 'd';
+				tabuleiro[x2][y2] = 'D';
 				tabuleiro[x][y] = ' ';
 			} else {
 				tabuleiro[x2][y2] = 'P';
 				tabuleiro[x][y] = ' ';
 			}
-			return;
+			return 1;
 		//se chegou ao destino e estiver na vez do jogador um, movimenta a peça se ela for do jogador 2
 		} else if(i == x2 && j == y2 && (tabuleiro[x][y] == 'B' || tabuleiro[x][y] == 'd') && jogador == 2) {
 			if(x2 == 7) {
@@ -91,7 +91,7 @@ int movimentar(int jogador,int i, int j, int x2, int y2) {
 				tabuleiro[x2][y2] = 'B';
 				tabuleiro[x][y] = ' ';
 			}
-			return;
+			return 1;
 		}
 		
 		int w;
@@ -119,7 +119,6 @@ int movimentar(int jogador,int i, int j, int x2, int y2) {
 		//Se a vez for do jogador 2 faz uma busca em profundidade para encontrar o destino
 		} else {
 			//Se a peça escolhida for uma dama, ela se movimenta em 4 direções
-			printf("oi\n");
 			if(tabuleiro[x][y] == 'd') {
 				for(w = 0; w < 4; w++) {
 					//Se houver possibilidade de comer uma peça inimiga, come
@@ -153,7 +152,7 @@ int main() {
 	colocar_pecas();
 	
 	int i, j, x2, y2;
-	int n = 12;
+	int n = 14;
 	int jogador = 1;
 	
 
