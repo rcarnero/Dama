@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 char tab[8][8];
-
+char *nomeJogador1, *nomeJogador2;
 int dirP[2][2] = {{-1,-1},{-1,1}};
 int dirB[2][2] = {{1,1},{1,-1}};
 int dirD[4][2] = {{-1,-1},{1,-1},{1,1},{-1,1}};
@@ -53,15 +53,15 @@ void colocarPecas(){
 }
 int verificarJogadas(int x, int y,int x1, int y1){
     if(x<0||x>=8||y<0||y>=8||x1<0||x1>=8||y1<0||y1>=8){
-       printf("Jogada invalida");
+       printf("Jogada invalida\n");
        return 0;
     }
     if(!((x-x1)*(x-x1)==(y-y1)*(y-y1)&&((x-x1)<=2||(x-x1)>=-2))){
-        printf("Jogada invalida");
+        printf("Jogada invalida\n");
         return 0;
     }
     if(tab[x1][y1]!=' '){
-        printf("Jogada invalida");
+        printf("Jogada invalida\n");
         return 0;
     }
     return 1;
@@ -156,34 +156,75 @@ int movimento(int x, int y,int x1, int y1, int jogador){
     }
     return 0;
 }
-int main()
-{
+void jogar(){
+    int x,y,x1,y1;
     int turno = 1;
+    system("cls");
     iniciarTab();
     colocarPecas();
     printarTab();
-    int x,y,x1,y1;
-    int n=5;
     while(1){
-        scanf("%d %d",&x,&y);
-        scanf("%d %d",&x1,&y1);
-        while(!verificarJogadas(x,y,x1,y1)){
-            printf("\nDigite coordenadas validas\n");
-            scanf("%d %d",&x,&y);
-            scanf("%d %d",&x1,&y1);
+            if(turno==1){
+                printf("%s, Selecione a peca P pelas coordenadas: ",nomeJogador1);
+                scanf("%d %d",&x,&y);
+                printf("Mova a peca p selecionada: ",nomeJogador1);
+                scanf("%d %d",&x1,&y1);
+            }else{
+                printf("%s, Selecione a peca B pelas coordenadas: ",nomeJogador2);
+                scanf("%d %d",&x,&y);
+                printf("Mova a peca B selecionada: ");
+                scanf("%d %d",&x1,&y1);
+            }
+
+
+            while(!verificarJogadas(x,y,x1,y1)){
+                printf("\nDigite coordenadas validas\n");
+                scanf("%d %d",&x,&y);
+                scanf("%d %d",&x1,&y1);
+            }
+            while(!(movimento(x,y,x1,y1,turno))){
+              printf("Jogada invalida");
+              printf("\nDigite coordenadas validas\n");
+              scanf("%d %d",&x,&y);
+              scanf("%d %d",&x1,&y1);
+            }
+            system("cls");
+            printarTab();
+            if(turno==1){
+                turno=2;
+            }else{
+                turno=1;
+            }
         }
-        while(!(movimento(x,y,x1,y1,turno))){
-          printf("Jogad invalida");
-          printf("\nDigite coordenadas validas\n");
-          scanf("%d %d",&x,&y);
-          scanf("%d %d",&x1,&y1);
-        }
-        system("cls");
-        printarTab();
-        if(turno==1){
-            turno=2;
-        }else{
-            turno=1;
+}
+int main()
+{
+    nomeJogador1 = (char*)malloc(50*sizeof(char));
+    nomeJogador2 = (char*)malloc(50*sizeof(char));
+    char menu;
+    while(1){
+        printf("Jogo de damas\n");
+        printf("1-Jogar\n");
+        printf("2-Instruções\n");
+        printf("3-Ranking\n");
+        printf("4-Sair\n");
+        while(1){
+            scanf("%c",&menu);
+            if(menu=='1'){
+                fflush(stdin);
+                printf("Digite o nome do primeiro jogador\n");
+                gets(nomeJogador1);
+                fflush(stdin);
+                printf("Digite o nome do segundo jogador\n");
+                gets(nomeJogador2);
+                jogar();
+            }else if(menu=='2'){
+
+            }else if(menu=='3'){
+
+            }else if(menu=='4'){
+
+            }
         }
     }
     return 0;
