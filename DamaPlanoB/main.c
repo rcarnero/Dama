@@ -6,8 +6,11 @@ int dirP[2][2] = {{-1,-1},{-1,1}};
 int dirB[2][2] = {{1,1},{1,-1}};
 int dirD[4][2] = {{-1,-1},{1,-1},{1,1},{-1,1}};
 int contador=0;
+<<<<<<< HEAD
 int countP = 0, countB = 0;
 int pecaP = 12; pecaB = 12;
+=======
+>>>>>>> origin/master
 struct jogada{
     int x,y,x1,y1,x2,y2;
     char tipo;
@@ -42,6 +45,95 @@ void printarTab(){
             }
             printf("\n");
         }
+}
+int sopro(int i, int j, int jogador,int dir,char tipo){
+    if(i>7 || i<0 || j>7 || j<0){
+        return 1;
+    }
+    if(tipo=='P'){
+
+          if(jogador==1 && (tab[i][j]=='B'||tab[i][j]=='d')){
+            if(tab[i+dirP[dir][0]][j+dirP[dir][1]]==' '){
+                jogadas[indexJogadas].tipo = tipo;
+                jogadas[indexJogadas].x2=i+dirP[dir][0];
+                jogadas[indexJogadas].y2=j+dirP[dir][1];
+                jogadas[indexJogadas].x1=i;
+                jogadas[indexJogadas].y1=j;
+                jogadas[indexJogadas].x=i-dirP[dir][0];
+                jogadas[indexJogadas++].y=j-dirP[dir][1];
+                contador++;
+                return 1;
+            }
+          }
+          int w;
+          for(w=0;w<2;w++){
+            if(tab[i+dirP[w][0]][j+dirP[w][1]]=='B'||tab[i+dirP[w][0]][j+dirP[w][1]]=='d'){
+                sopro(i+dirP[w][0], j+dirP[w][1],1,w,tipo);
+            }
+          }
+
+    }else if(tipo=='B'){
+        if(jogador==2 && (tab[i][j]=='P'||tab[i][j]=='D')){
+            if(tab[i+dirB[dir][0]][j+dirB[dir][0]]==' '){
+                    jogadas[indexJogadas].tipo = tipo;
+                jogadas[indexJogadas].x2=i+dirB[dir][0];
+                jogadas[indexJogadas].y2=j+dirB[dir][1];
+                jogadas[indexJogadas].x1=i;
+                jogadas[indexJogadas].y1=j;
+                jogadas[indexJogadas].x=i-dirB[dir][0];
+                jogadas[indexJogadas++].y=j-dirB[dir][1];
+                contador++;
+                return 1;
+            }
+        }
+        int w;
+          for(w=0;w<2;w++){
+            if(tab[i+dirB[w][0]][j+dirB[w][1]]=='P'||tab[i+dirB[w][0]][j+dirB[w][1]]=='D'){
+                sopro(i+dirB[w][0], j+dirB[w][1],2,w,tipo);
+            }
+          }
+    }else if(tipo=='D'){
+         if(jogador==1 && (tab[i][j]=='B'||tab[i][j]=='d')){
+            if(tab[i+dirD[dir][0]][j+dirD[dir][0]]==' '){
+                    jogadas[indexJogadas].tipo = tipo;
+                jogadas[indexJogadas].x2=i+dirD[dir][0];
+                jogadas[indexJogadas].y2=j+dirD[dir][1];
+                jogadas[indexJogadas].x1=i;
+                jogadas[indexJogadas].y1=j;
+                jogadas[indexJogadas].x=i-dirD[dir][0];
+                jogadas[indexJogadas++].y=j-dirD[dir][1];
+                contador++;
+                return 1;
+            }
+        }
+        int w;
+          for(w=0;w<4;w++){
+            if(tab[i+dirD[w][0]][j+dirD[w][1]]=='B'||tab[i+dirD[w][0]][j+dirD[w][1]]=='d'){
+                sopro(i+dirD[w][0], j+dirD[w][1],1,w,tipo);
+            }
+          }
+    }else{
+        if(jogador==2 && (tab[i][j]=='P'||tab[i][j]=='D')){
+            if(tab[i+dirD[dir][0]][j+dirD[dir][0]]==' '){
+                    jogadas[indexJogadas].tipo = tipo;
+                jogadas[indexJogadas].x2=i+dirD[dir][0];
+                jogadas[indexJogadas].y2=j+dirD[dir][1];
+                jogadas[indexJogadas].x1=i;
+                jogadas[indexJogadas].y1=j;
+                jogadas[indexJogadas].x=i-dirD[dir][0];
+                jogadas[indexJogadas++].y=j-dirD[dir][1];
+                contador++;
+                return 1;
+            }
+        }
+        int w;
+          for(w=0;w<4;w++){
+            if(tab[i+dirD[w][0]][j+dirD[w][1]]=='P'||tab[i+dirD[w][0]][j+dirD[w][1]]=='D'){
+                sopro(i+dirD[w][0], j+dirD[w][1],2,w,tipo);
+            }
+          }
+    }
+
 }
 int sopro(int i, int j, int jogador,int dir,char tipo){
     if(i>7 || i<0 || j>7 || j<0){
@@ -318,6 +410,7 @@ void jogar(){
                 tab[jogadas[escolha].x][jogadas[escolha].y]=' ';
                 tab[jogadas[escolha].x1][jogadas[escolha].y1]=' ';
                 tab[jogadas[escolha].x2][jogadas[escolha].y2]=jogadas[escolha].tipo;
+<<<<<<< HEAD
                 if(jogadas[escolha].tipo == 'P' || jogadas[escolha].tipo == 'D') {
                     countP++;
                     pecaB--;
@@ -325,6 +418,8 @@ void jogar(){
                     countB++;
                     pecaP--;
                 }
+=======
+>>>>>>> origin/master
                 if(jogadas[escolha].x2==0&&jogadas[escolha].tipo=='P'){
                     tab[jogadas[escolha].x2][jogadas[escolha].y2]='D';
                 }else if(jogadas[escolha].x2==7&&jogadas[escolha].tipo=='B'){
