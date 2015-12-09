@@ -406,6 +406,7 @@ int main()
     nomeJogador1 = (char*)malloc(50*sizeof(char));
     nomeJogador2 = (char*)malloc(50*sizeof(char));
     char menu;
+    //getchar();
     while(1){
         system("cls");
         printf("Jogo de damas\n");
