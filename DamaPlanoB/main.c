@@ -78,6 +78,7 @@ int sopro(int i, int j, int jogador,int dir,char tipo){
                 contador++;
                 return 1;
             }
+            return 1;
           }
           int w;
           for(w=0;w<2;w++){
@@ -88,7 +89,7 @@ int sopro(int i, int j, int jogador,int dir,char tipo){
 
     }else if(tipo=='B'){
         if(jogador==2 && (tab[i][j]=='P'||tab[i][j]=='D')){
-            if(tab[i+dirB[dir][0]][j+dirB[dir][0]]==' '){
+            if(tab[i+dirB[dir][0]][j+dirB[dir][1]]==' '){
                 jogadas[indexJogadas].tipo = tipo;
                 jogadas[indexJogadas].x2=i+dirB[dir][0];
                 jogadas[indexJogadas].y2=j+dirB[dir][1];
@@ -99,6 +100,7 @@ int sopro(int i, int j, int jogador,int dir,char tipo){
                 contador++;
                 return 1;
             }
+            return 1;
         }
         int w;
           for(w=0;w<2;w++){
@@ -108,7 +110,7 @@ int sopro(int i, int j, int jogador,int dir,char tipo){
           }
     }else if(tipo=='D'){
          if(jogador==1 && (tab[i][j]=='B'||tab[i][j]=='d')){
-            if(tab[i+dirD[dir][0]][j+dirD[dir][0]]==' '){
+            if(tab[i+dirD[dir][0]][j+dirD[dir][1]]==' '){
                 jogadas[indexJogadas].tipo = tipo;
                 jogadas[indexJogadas].x2=i+dirD[dir][0];
                 jogadas[indexJogadas].y2=j+dirD[dir][1];
@@ -128,7 +130,7 @@ int sopro(int i, int j, int jogador,int dir,char tipo){
           }
     }else{
         if(jogador==2 && (tab[i][j]=='P'||tab[i][j]=='D')){
-            if(tab[i+dirD[dir][0]][j+dirD[dir][0]]==' '){
+            if(tab[i+dirD[dir][0]][j+dirD[dir][1]]==' '){
                 jogadas[indexJogadas].tipo = tipo;
                 jogadas[indexJogadas].x2=i+dirD[dir][0];
                 jogadas[indexJogadas].y2=j+dirD[dir][1];
@@ -139,6 +141,7 @@ int sopro(int i, int j, int jogador,int dir,char tipo){
                 contador++;
                 return 1;
             }
+            return 1;
         }
         int w;
           for(w=0;w<4;w++){
@@ -157,13 +160,11 @@ void colocarPecas(){
                     continue;
                 }
                 if(i<3){
-                    //tab[i][j]='B';
+                    tab[i][j]='B';
                 }else if(i>4){
-                    //tab[i][j]='P';
+                    tab[i][j]='P';
                 }
             }
-        tab[6][1]='P';
-        tab[5][0]='B';
     }
 }
 int verificarJogadas(int x, int y,int x1, int y1){
@@ -304,7 +305,7 @@ void chamarSopro(int turno){
 }
 void jogar(){
     int x,y,x1,y1;
-    int turno = 2;
+    int turno = 1;
     system("cls");
     iniciarTab();
     colocarPecas();
@@ -347,7 +348,6 @@ void jogar(){
                 }else if(jogadas[escolha].x2==7&&jogadas[escolha].tipo=='B'){
                     tab[jogadas[escolha].x2][jogadas[escolha].y2]='d';
                 }
-                indexJogadas=0;
                 system("cls");
                 printarTab();
                 indexJogadas=0;
@@ -360,6 +360,7 @@ void jogar(){
                        turno=1;
                     }
                     nextTurno=1;
+                    break;
                 }
             }
             if(nextTurno){
