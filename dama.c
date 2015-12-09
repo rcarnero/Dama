@@ -1,13 +1,64 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct no{
+	int key;
+	struct no *next;
+} no;
+
+no *head, *aux;
+
 char tabuleiro[8][8];
 int dirP[2][2] = {{-1,-1},{-1,1}};
 int dirB[2][2] = {{1,1},{1,-1}};
-int dirD[4][2] = {{-1,-1},{1,-1},{1,1},{-1,1}};
+int dirD[4][2] = {{1, 1},{1,-1},{-1,-1},{-1,1}};
 int x,y;
+int pecaP = 12, pecaB = 12;
 int countP = 0;
 int countB = 0;
+int tamanho = 0;
+
+no *procurar(int key) {
+    no *temp;
+    for(temp = head; temp; temp = temp->next) {
+        if(temp->next->key > key) return temp;
+    }
+    return NULL;
+}
+
+
+void inserir(int key) {
+    no *node = (no*)procurar(key);
+    if(!node) node = aux;
+    no *novo = (no*)malloc(sizeof(no));
+    novo->key = key;
+    novo->next = node->next;
+    node->next = novo;
+    if(!aux->next) aux = novo;
+
+}
+
+void remover() {
+    if(!head) return;
+    no *temp = head->next;
+    head->next = temp->next;
+    tamanho--;
+    free(temp);
+
+}
+
+void ranking(int countP, int countB) {
+	int pontuacao;
+	if(!pecaB) pontuacao = countP - countB;
+	else if(!pecaP) pontuacao = countB - countP;
+	else return;
+
+	inserir(pontuacao);
+	if(tamanho > 10) remover();
+}
+
+
+
 
 void imprimir_mapa() {
 	int i, j, count = 1;
@@ -21,7 +72,7 @@ void imprimir_mapa() {
 				printf("%c", tabuleiro[i][j]);
 			}
 			printf("\n");
-		}
+	}
 }
 
 
@@ -103,6 +154,7 @@ int movimentar(int jogador,int i, int j, int x2, int y2) {
 					//Se houver possibilidade de comer uma peça inimiga, come
 					if(movimentar(1, i+dirD[w][0], j+dirD[w][1], x2, y2) && tabuleiro[i][j] == 'B') {
 						countP++;
+						pecaB--;
 						tabuleiro[i][j] = ' ';
 					}
 				}
@@ -112,6 +164,7 @@ int movimentar(int jogador,int i, int j, int x2, int y2) {
 					//Se houver possibilidade de comer uma peça inimiga, come
 					if(movimentar(1, i+dirP[w][0], j+dirP[w][1], x2, y2) && tabuleiro[i][j] == 'B') {
 						countP++;
+						pecaB--;
 						tabuleiro[i][j] = ' ';
 					}
 				}
@@ -124,6 +177,7 @@ int movimentar(int jogador,int i, int j, int x2, int y2) {
 					//Se houver possibilidade de comer uma peça inimiga, come
 					if(movimentar(2, i+dirD[w][0], j+dirD[w][1], x2, y2) && tabuleiro[i][j] == 'P') {
 						countB++;
+						pecaP--;
 						tabuleiro[i][j] = ' ';
 					}
 				}
@@ -133,15 +187,12 @@ int movimentar(int jogador,int i, int j, int x2, int y2) {
 					//Se houver possibilidade de comer uma peça inimiga, come
 					if(movimentar(2, i+dirB[w][0], j+dirB[w][1], x2, y2) && tabuleiro[i][j] == 'P') {
 						countB++;
+						pecaP--;
 						tabuleiro[i][j] = ' ';
 					}
 				}
 			}
 		}
-
-}
-
-void ranking() {
 
 }
 
@@ -155,10 +206,10 @@ int main() {
 	int n = 14;
 	int jogador = 1;
 	
-
-	imprimir_mapa();
-
 	do {
+
+		imprimir_mapa();
+
 		printf("Jogador %d:\n", jogador);
 		scanf("%d%d%d%d", &x, &y, &x2, &y2);
 
@@ -166,11 +217,11 @@ int main() {
 		movimentar(jogador, x, y, x2, y2);
 		 	//printf("Posicao impossivel de ser acessada\n");
 
-			n--;
+			
 			if(n%2 == 1) jogador = 2;
 			else jogador = 1;
 
-			imprimir_mapa();
-	} while((x != 0 || y != 0) && n);
+			n++;
+	} while(!pecaP || !pecaB);
 	return 0;
 }
