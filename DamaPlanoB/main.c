@@ -55,8 +55,8 @@ void ranking(int countP, int countB) {
     else if(!pecaP) pontuacao = countB - countP;
     else return;
 
-    inserir(pontuacao, );
-    if(tamanho > 10) remover();
+//    inserir(pontuacao, );
+//    if(tamanho > 10) remover();
 }
 
 
@@ -89,7 +89,7 @@ int sopro(int i, int j, int jogador,int dir,char tipo){
     }else if(tipo=='B'){
         if(jogador==2 && (tab[i][j]=='P'||tab[i][j]=='D')){
             if(tab[i+dirB[dir][0]][j+dirB[dir][0]]==' '){
-                    jogadas[indexJogadas].tipo = tipo;
+                jogadas[indexJogadas].tipo = tipo;
                 jogadas[indexJogadas].x2=i+dirB[dir][0];
                 jogadas[indexJogadas].y2=j+dirB[dir][1];
                 jogadas[indexJogadas].x1=i;
@@ -109,7 +109,7 @@ int sopro(int i, int j, int jogador,int dir,char tipo){
     }else if(tipo=='D'){
          if(jogador==1 && (tab[i][j]=='B'||tab[i][j]=='d')){
             if(tab[i+dirD[dir][0]][j+dirD[dir][0]]==' '){
-                    jogadas[indexJogadas].tipo = tipo;
+                jogadas[indexJogadas].tipo = tipo;
                 jogadas[indexJogadas].x2=i+dirD[dir][0];
                 jogadas[indexJogadas].y2=j+dirD[dir][1];
                 jogadas[indexJogadas].x1=i;
@@ -129,7 +129,7 @@ int sopro(int i, int j, int jogador,int dir,char tipo){
     }else{
         if(jogador==2 && (tab[i][j]=='P'||tab[i][j]=='D')){
             if(tab[i+dirD[dir][0]][j+dirD[dir][0]]==' '){
-                    jogadas[indexJogadas].tipo = tipo;
+                jogadas[indexJogadas].tipo = tipo;
                 jogadas[indexJogadas].x2=i+dirD[dir][0];
                 jogadas[indexJogadas].y2=j+dirD[dir][1];
                 jogadas[indexJogadas].x1=i;
@@ -219,7 +219,7 @@ int movimento(int x, int y,int x1, int y1, int jogador){
                             tab[x+dirD[w][0]][y+dirD[w][1]]=' ';
                             tab[x1][y1]='D';
                             countP++;
-                            pecaB
+                            pecaB--;
                             return 1;
                         }
                     }
@@ -313,7 +313,7 @@ void jogar(){
     int nextTurno = 0;
     //chamarSopro(1);
     //printf(" ");
-    while(1){
+    while(pecaP && pecaP){
             chamarSopro(turno);
             while(indexJogadas>0){
                 if(turno==1){
@@ -406,28 +406,27 @@ int main()
     nomeJogador2 = (char*)malloc(50*sizeof(char));
     char menu;
     while(1){
+        system("cls");
         printf("Jogo de damas\n");
         printf("1-Jogar\n");
-        printf("2-Instruções\n");
+        printf("2-Instrucoes\n");
         printf("3-Ranking\n");
         printf("4-Sair\n");
-        while(pecaP && pecaB){
-            scanf("%c",&menu);
-            if(menu=='1'){
-                fflush(stdin);
-                printf("Digite o nome do primeiro jogador\n");
-                gets(nomeJogador1);
-                fflush(stdin);
-                printf("Digite o nome do segundo jogador\n");
-                gets(nomeJogador2);
-                jogar();
-            }else if(menu=='2'){
+        scanf(" %c",&menu);
+        if(menu=='1'){
+            fflush(stdin);
+            printf("Digite o nome do primeiro jogador\n");
+            gets(nomeJogador1);
+            fflush(stdin);
+            printf("Digite o nome do segundo jogador\n");
+            gets(nomeJogador2);
+            jogar();
+        }else if(menu=='2'){
 
-            }else if(menu=='3'){
+        }else if(menu=='3'){
 
-            }else if(menu=='4'){
-
-            }
+        }else if(menu=='4'){
+            break;
         }
     }
     return 0;
