@@ -43,15 +43,15 @@ void colocarPecas(){
                     continue;
                 }
                 if(i<3){
-                 //  tab[i][j]='B';
+                  //tab[i][j]='B';
                 }else if(i>4){
-                   // tab[i][j]='P';
+                   //tab[i][j]='P';
                 }
             }
 
     }
-    tab[4][1] = 'B';
-    tab[3][2] = 'P';
+    tab[4][1] = 'P';
+    tab[3][2] = 'B';
 
 }
 int verificarJogadas(int x, int y,int x1, int y1){
@@ -73,8 +73,9 @@ int passou = 0, vez = 0;
 int movimentar(int i, int j, int jogador) {
     int w;
      for(w = 0; w < 4 && !vez; w++) {
-        movimentar(i+dirD[w][0], j+dirD[w][1], jogador);
         if(w == 3) vez = 1;
+        movimentar(i+dirD[w][0], j+dirD[w][1], jogador);
+
     }
 
     if(jogador == 1) {
@@ -86,7 +87,7 @@ int movimentar(int i, int j, int jogador) {
             for(w = 0; w < 2; w++) {
                 if(movimentar(i+dirP[w][0], j+dirD[w][1], jogador)) {
                     printf("Possivel comer nas coordenadas %d %d\n", i+dirP[w][0], j+dirD[w][1]);
-                    break;    
+                    break;
                 }
             }
         }
@@ -100,7 +101,7 @@ int movimentar(int i, int j, int jogador) {
             for(w = 0; w < 2; w++) {
                 if(movimentar(i+dirB[w][0], j+dirD[w][1], jogador)) {
                     printf("Possivel comer nas coordenadas %d %d\n", i+dirP[w][0], j+dirD[w][1]);
-                    break;    
+                    break;
                 }
             }
         }
