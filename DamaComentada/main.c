@@ -7,13 +7,14 @@ int dirB[2][2] = {{1,1},{1,-1}};
 int dirD[4][2] = {{-1,-1},{1,-1},{1,1},{-1,1}};
 int contador=0;
 int countP = 0, countB = 0;
-int pecaP = 12; pecaB = 12;
+int pecaP = 12, pecaB = 12;
 struct jogada{
     int x,y,x1,y1,x2,y2;
     char tipo;
 };
 struct jogada jogadas[1000];
 int indexJogadas=0;
+
 void iniciarTab(){
     int i,j;
     //Inicializando o tabuleiro com marcas brancas e espaços vazios
@@ -44,22 +45,36 @@ void printarTab(){
             printf("\n");
         }
 }
-
+//Insere num arquivo txt o vencedor da partida
 void inserir(int pontuacao, char *nome) {
-
+    freopen("Ranking.out", "a+", stdout);
+    printf("%s - %d\n", nome, pontuacao);
 }
-
-
-void ranking(int countP, int countB) {
+void inserir_vencedor() {//Calcula quem foi o vencedor, pega sua pontuacao e nome
     int pontuacao;
-    if(!pecaB) pontuacao = countP - countB;
-    else if(!pecaP) pontuacao = countB - countP;
+    char *nome;
+    if(!pecaB) {pontuacao = countP - countB; nome = nomeJogador1;}
+    else if(!pecaP) {pontuacao = countB - countP; nome = nomeJogador2;}
     else return;
 
-//    inserir(pontuacao, );
-//    if(tamanho > 10) remover();
+    inserir(pontuacao, nome);
 }
-
+//Le o arquivo txt e imprime no console os nomes e as pontuacoes contidas
+void mostrar_vencedor() {
+    system("cls");
+    char *nome = (char*)malloc(sizeof(char));
+    FILE *file;
+    int i = 0;
+    int vezes = 4;
+    file = freopen("Ranking.out", "r", stdin);
+    if(file == NULL) perror("Error opening de file");
+    else {
+        //Executa enquanto houver coisa para ler
+        while(gets(nome)) {
+            printf("%s\n", nome);
+        }
+    }
+}
 
 int sopro(int i, int j, int jogador,int dir,char tipo){
     if(i>7 || i<0 || j>7 || j<0){//verificando se i e j não passam do limite do tabuleiro
@@ -327,9 +342,10 @@ void jogar(){
     //chamarSopro(1);
     //printf(" ");
     //o jogo só acaba quando acabar as peças de algum jogador
-    while(pecaP && pecaP){
+    while(pecaP && pecaB){
             //verificando se tem sopro
             chamarSopro(turno);
+            //Mostra quantas e onde possui jogadas obrigatorias
             while(indexJogadas>0){
                 if(turno==1){
                     printf("%s tem %d jogadas obrigatorias\n",nomeJogador1,indexJogadas);
@@ -347,9 +363,11 @@ void jogar(){
                 while(escolha<0 || escolha>=indexJogadas){
                     scanf("%d",&escolha);
                 }
+                //Movimenta a pela do local original pro escolhido
                 tab[jogadas[escolha].x][jogadas[escolha].y]=' ';
                 tab[jogadas[escolha].x1][jogadas[escolha].y1]=' ';
                 tab[jogadas[escolha].x2][jogadas[escolha].y2]=jogadas[escolha].tipo;
+                //Come uma peça adversaria e incrementa os pontos do jogador
                 if(jogadas[escolha].tipo == 'P' || jogadas[escolha].tipo == 'D') {
                     countP++;
                     pecaB--;
@@ -357,6 +375,7 @@ void jogar(){
                     countB++;
                     pecaP--;
                 }
+                //Forma dama
                 if(jogadas[escolha].x2==0&&jogadas[escolha].tipo=='P'){
                     tab[jogadas[escolha].x2][jogadas[escolha].y2]='D';
                 }else if(jogadas[escolha].x2==7&&jogadas[escolha].tipo=='B'){
@@ -381,6 +400,8 @@ void jogar(){
                 nextTurno=0;
                 continue;
             }
+            printf("%d\n", pecaP);
+            printf("%d\n", pecaB);
             if(turno==1){
                 printf("%s, Selecione a peca P pelas coordenadas: ",nomeJogador1);
                 scanf("%d %d",&x,&y);
@@ -414,6 +435,7 @@ void jogar(){
                 turno=1;
             }
         }
+        inserir_vencedor();
 }
 int main()
 {
@@ -421,7 +443,6 @@ int main()
     nomeJogador1 = (char*)malloc(50*sizeof(char));
     nomeJogador2 = (char*)malloc(50*sizeof(char));
     char menu;
-    //getchar();
     //menu
     while(1){
         system("cls");
@@ -443,11 +464,14 @@ int main()
             //entrando na função jogar
 
             jogar();
-        }else if(menu=='2'){
-            getchar();
-        }else if(menu=='3'){
-            getchar();
-        }else if(menu=='4'){
+        }else if(menu=='2'){//Como jogar
+            system("cls");
+            printf("Escolha a sua peca, de enter e em seguida o local para onde ela ira se mover.\nEx: 5 0 enter 4 1\n");
+            break;
+        }else if(menu=='3'){//Imprime uma lista de todos os vencedores
+            mostrar_vencedor();
+            break;
+        }else if(menu=='4'){//Sai do programa
             break;
         }
     }
